@@ -1,5 +1,6 @@
 import React from "react";
 import * as userApi from "./api/userApi";
+import { Link } from "react-router-dom";
 
 class Users extends React.Component {
   constructor(props) {
@@ -42,6 +43,7 @@ class Users extends React.Component {
     return (
       <>
         <h1>Users</h1>
+        <Link to="/manage-user">Add User</Link>
         <ul>{this.state.users.map(this.renderUser)}</ul>
       </>
     );

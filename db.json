@@ -1,5 +1,8 @@
 {
-  "users": [{ "id": 1, "name": "Cory" }, { "id": 2, "name": "Leah" }],
+  "users": [
+    { "id": 1, "name": "Cory", "hairColor": "balding" },
+    { "id": 2, "name": "Leah", "hairColor": "sandy blonde" }
+  ],
   "cars": [
     {
       "id": 1,
