@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "./reusable/Input";
 import * as userApi from "./api/userApi";
+import { toast } from "react-toastify";
 
 const newUser = {
   id: null,
@@ -12,10 +13,17 @@ function ManageUser(props) {
   // Handle state via the useState Hook
   const [user, setUser] = useState(newUser);
 
+  useEffect(() => {
+    userApi.getUserById(props.match.params.userId).then(user => {
+      setUser(user);
+    });
+  }, [props.match.params.userId]);
+
   function saveUser(event) {
     event.preventDefault();
     userApi.addUser(user).then(savedUser => {
-      // TODO: redirect.
+      props.history.push("/users");
+      toast.success("User saved! 🎉");
     });
   }
 
