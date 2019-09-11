@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Input from "./reusable/Input";
+import * as userApi from "./api/userApi";
 
 const newUser = {
   id: null,
@@ -7,12 +8,15 @@ const newUser = {
   hairColor: ""
 };
 
-function ManageUser() {
+function ManageUser(props) {
   // Handle state via the useState Hook
   const [user, setUser] = useState(newUser);
 
   function saveUser(event) {
     event.preventDefault();
+    userApi.addUser(user).then(savedUser => {
+      // TODO: redirect.
+    });
   }
 
   function handleChange(event) {

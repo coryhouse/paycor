@@ -1,13 +1,14 @@
 import React from "react";
 import * as userApi from "./api/userApi";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 class Users extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      users: []
+      users: [],
+      redirect: false
     };
 
     // bind in ctor
@@ -43,7 +44,10 @@ class Users extends React.Component {
     return (
       <>
         <h1>Users</h1>
-        <Link to="/manage-user">Add User</Link>
+        {this.state.redirect && <Redirect to="/manage-user" />}
+        <button onClick={() => this.setState({ redirect: true })}>
+          Add User
+        </button>
         <ul>{this.state.users.map(this.renderUser)}</ul>
       </>
     );

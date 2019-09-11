@@ -10,6 +10,16 @@ export function deleteUser(userId) {
   });
 }
 
+export function addUser(user) {
+  return fetch("http://localhost:3001/users", {
+    method: "POST",
+    body: JSON.stringify(user),
+    headers: {
+      "content-type": "application/json"
+    }
+  });
+}
+
 // Centralized response handler
 function handleResponse(response) {
   if (response.ok) return response.json();
