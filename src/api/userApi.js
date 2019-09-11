@@ -26,7 +26,7 @@ export function addUser(user) {
     headers: {
       "content-type": "application/json"
     }
-  });
+  }).then(handleResponse);
 }
 
 export function editUser(user) {
@@ -36,7 +36,7 @@ export function editUser(user) {
     headers: {
       "content-type": "application/json"
     }
-  });
+  }).then(handleResponse);
 }
 
 // Centralized response handler

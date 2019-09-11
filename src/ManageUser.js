@@ -14,17 +14,24 @@ function ManageUser(props) {
   const [user, setUser] = useState(newUser);
 
   useEffect(() => {
-    userApi.getUserById(props.match.params.userId).then(user => {
-      setUser(user);
-    });
+    // IOW, if editing.
+    if (props.match.params.userId) {
+      userApi.getUserById(props.match.params.userId).then(user => {
+        setUser(user);
+      });
+    }
   }, [props.match.params.userId]);
+
+  function handleSave(savedUser) {
+    props.history.push("/users");
+    toast.success(savedUser.name + " saved! 🎉");
+  }
 
   function saveUser(event) {
     event.preventDefault();
-    userApi.addUser(user).then(savedUser => {
-      props.history.push("/users");
-      toast.success("User saved! 🎉");
-    });
+    user.id
+      ? userApi.editUser(user).then(handleSave)
+      : userApi.addUser(user).then(handleSave);
   }
 
   function handleChange(event) {
