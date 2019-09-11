@@ -1,0 +1,13 @@
+{
+  "users": [{ "id": 1, "name": "Cory" }, { "id": 2, "name": "Leah" }],
+  "cars": [
+    {
+      "id": 1,
+      "name": "Nissan"
+    },
+    {
+      "id": 2,
+      "name": "Tesla"
+    }
+  ]
+}
