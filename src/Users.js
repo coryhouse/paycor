@@ -1,15 +1,22 @@
 import React from "react";
+import { getUsers } from "./api/userApi";
 
 class Users extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      users: [{ id: 1, name: "Cory" }, { id: 2, name: "Leah" }]
+      users: []
     };
 
     // bind in ctor
     //  this.deleteUser = this.deleteUser.bind(this); // act sane.
+  }
+
+  // Magical lifecycle method that's called after component is mounted on the page.
+  // (there are lots of others). Only valid for class components. Function components use Hooks.
+  componentDidMount() {
+    getUsers().then(users => this.setState({ users: users }));
   }
 
   // Class field with an arrow func
