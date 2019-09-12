@@ -1,7 +1,40 @@
 {
   "users": [
-    { "id": 1, "name": "Cory", "hairColor": "balding" },
-    { "id": 2, "name": "Leah", "hairColor": "sandy blonde" }
+    {
+      "id": 1,
+      "name": "New name",
+      "hairColor": "balding (sorta()"
+    },
+    {
+      "id": 2,
+      "name": "Leah",
+      "hairColor": "sandy blonde"
+    },
+    {
+      "id": 3,
+      "name": "Mike",
+      "hairColor": "Fabulous"
+    },
+    {
+      "id": 4,
+      "name": "Nathan",
+      "hairColor": "Spikey"
+    },
+    {
+      "id": 5,
+      "name": "jsdjs",
+      "hairColor": "idsgsd"
+    },
+    {
+      "id": 7,
+      "name": "name",
+      "hairColor": "hair color"
+    },
+    {
+      "id": 8,
+      "name": "fdgf",
+      "hairColor": "sdhsdg"
+    }
   ],
   "cars": [
     {

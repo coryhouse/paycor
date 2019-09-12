@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should not render the example <p> when no error 1`] = `
+<div>
+  <label
+    htmlFor="test"
+  >
+    test
+  </label>
+  <br />
+  <input
+    id="test"
+    name="test"
+    onChange={[Function]}
+    style={null}
+    value="test"
+  />
+</div>
+`;
