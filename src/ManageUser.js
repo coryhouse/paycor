@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import Input from "./reusable/Input";
 import * as userApi from "./api/userApi";
 import { toast } from "react-toastify";
+import { errorColor } from "./styles";
 
 const newUser = {
   id: null,
   name: "",
-  hairColor: ""
+  role: ""
 };
 
 function ManageUser(props) {
@@ -44,7 +45,7 @@ function ManageUser(props) {
     // using underscore prefix to avoid naming conflict with state
     const _errors = {};
     if (!user.name) _errors.name = "Name is required.";
-    if (!user.hairColor) _errors.hairColor = "Hair is required.";
+    if (!user.role) _errors.role = "Role is required.";
     setErrors(_errors);
     // If errors object still has no properties, then there are no errors.
     return Object.keys(_errors).length === 0;
@@ -66,6 +67,15 @@ function ManageUser(props) {
     setUser(userCopy);
   }
 
+  const inputErrorStyle = {
+    border: "solid 1px " + errorColor
+  };
+
+  const errorStyle = {
+    color: errorColor,
+    fontWeight: "bold"
+  };
+
   if (isLoading) return "Loading... 🦄";
   return (
     <>
@@ -81,15 +91,26 @@ function ManageUser(props) {
           value={user.name}
         />
 
-        <Input
-          label="Hair color"
-          type="text"
-          error={errors.hairColor}
-          name="hairColor" // this is the property we wanna set onChange
-          id="hair-color"
-          onChange={handleChange}
-          value={user.hairColor}
-        />
+        <div>
+          <label htmlFor="role">Role</label>
+          <br />
+          <select
+            style={errors.role ? inputErrorStyle : null}
+            id="role"
+            value={user.role}
+            name="role"
+            onChange={handleChange}
+          >
+            <option value=""></option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+          {errors.role && (
+            <p role="alert" style={errorStyle}>
+              {errors.role}
+            </p>
+          )}
+        </div>
 
         <input
           type="submit"
