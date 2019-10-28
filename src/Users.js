@@ -1,59 +1,44 @@
-import React from "react";
+// Exercise: Convert this to a function component.
+import React, { useState, useEffect } from "react";
 import * as userApi from "./api/userApi";
 import { Link, Redirect } from "react-router-dom";
 
-class Users extends React.Component {
-  constructor(props) {
-    super(props);
+function Users(props) {
+  const [users, setUsers] = useState([]);
+  const [redirect, setRedirect] = useState(false);
 
-    this.state = {
-      users: [],
-      redirect: false
-    };
+  useEffect(() => {
+    userApi.getUsers().then(users => setUsers(users));
+  }, []);
 
-    // bind in ctor
-    //  this.deleteUser = this.deleteUser.bind(this); // act sane.
-  }
-
-  // Magical lifecycle method that's called after component is mounted on the page.
-  // (there are lots of others). Only valid for class components. Function components use Hooks.
-  componentDidMount() {
-    userApi.getUsers().then(users => this.setState({ users: users }));
-  }
-
-  // Class field with an arrow func
-  deleteUser = userId => {
+  function deleteUser(userId) {
     userApi.deleteUser(userId).then(() => {
       // Runs after the delete was successful
-      const users = this.state.users.filter(user => user.id !== userId);
-      this.setState({ users: users });
+      const _users = users.filter(user => user.id !== userId);
+      setUsers(_users);
     });
-  };
+  }
 
-  renderUser = user => {
+  function renderUser(user) {
     return (
       <li key={user.id}>
-        <button onClick={() => this.deleteUser(user.id)}>Delete</button>{" "}
+        <button onClick={() => deleteUser(user.id)}>Delete</button>{" "}
         <Link id={"user-" + user.id} to={`/manage-user/${user.id}`}>
           {user.name}
         </Link>
       </li>
     );
-  };
+  }
 
   // The JSX we returned here will be rendered.
-  render() {
-    return (
-      <>
-        <h1>Users</h1>
-        {this.state.redirect && <Redirect to="/manage-user" />}
-        <button onClick={() => this.setState({ redirect: true })}>
-          Add User
-        </button>
-        <ul>{this.state.users.map(this.renderUser)}</ul>
-      </>
-    );
-  }
+  return (
+    <>
+      <h1>Users</h1>
+      {redirect && <Redirect to="/manage-user" />}
+      <button onClick={() => setRedirect(true)}>Add User</button>
+      <ul>{users.map(renderUser)}</ul>
+    </>
+  );
 }
 
 export default Users;
