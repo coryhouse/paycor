@@ -20,7 +20,6 @@ function Login(props) {
 
     // In real app, would call API to check username and password entered.
     props.loginUser(2);
-    debugger;
     props.history.push("/");
   }
 
