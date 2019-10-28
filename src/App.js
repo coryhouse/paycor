@@ -6,10 +6,12 @@ import ManageUser from "./ManageUser";
 import { ToastContainer } from "react-toastify";
 import * as userApi from "./api/userApi";
 import Loading from "./reusable/Loading";
+import Login from "./Login";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState([]);
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
   useEffect(() => {
     userApi.getUsers().then(users => {
@@ -26,6 +28,10 @@ function App() {
     });
   }
 
+  function loginUser(userId) {
+    setLoggedInUser(users.find(u => u.id === userId));
+  }
+
   if (isLoading) return <Loading />;
 
   return (
@@ -36,11 +42,22 @@ function App() {
           <Link to="/">Home</Link>
         </li>
         <li>
+          <Link to="/login">Login</Link>
+        </li>
+        <li>
           <Link to="/users">Users</Link>
         </li>
       </ul>
       <Switch>
-        <Route path="/" exact component={Home} />
+        <Route
+          path="/"
+          exact
+          render={props => <Home loggedInUser={loggedInUser} {...props} />}
+        />
+        <Route
+          path="/login"
+          render={props => <Login loginUser={loginUser} {...props} />}
+        />
         <Route
           path="/users"
           render={reactRouterProps => (
