@@ -1,23 +1,10 @@
 // Exercise: Convert this to a function component.
-import React, { useState, useEffect } from "react";
-import * as userApi from "./api/userApi";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { Link, Redirect } from "react-router-dom";
 
-function Users(props) {
-  const [users, setUsers] = useState([]);
+function Users({ deleteUser, users }) {
   const [redirect, setRedirect] = useState(false);
-
-  useEffect(() => {
-    userApi.getUsers().then(users => setUsers(users));
-  }, []);
-
-  function deleteUser(userId) {
-    userApi.deleteUser(userId).then(() => {
-      // Runs after the delete was successful
-      const _users = users.filter(user => user.id !== userId);
-      setUsers(_users);
-    });
-  }
 
   function renderUser(user) {
     return (
@@ -40,5 +27,10 @@ function Users(props) {
     </>
   );
 }
+
+Users.propTypes = {
+  deleteUser: PropTypes.func.isRequired,
+  users: PropTypes.array.isRequired
+};
 
 export default Users;
