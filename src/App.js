@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import * as userApi from "./api/userApi";
 import Loading from "./reusable/Loading";
 import Login from "./Login";
+import UserContext from "./UserContext";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +36,7 @@ function App() {
   if (isLoading) return <Loading />;
 
   return (
-    <>
+    <UserContext.Provider value={loggedInUser}>
       <ToastContainer />
       <ul>
         <li>
@@ -49,11 +50,7 @@ function App() {
         </li>
       </ul>
       <Switch>
-        <Route
-          path="/"
-          exact
-          render={props => <Home loggedInUser={loggedInUser} {...props} />}
-        />
+        <Route path="/" exact component={Home} />
         <Route
           path="/login"
           render={props => <Login loginUser={loginUser} {...props} />}
@@ -75,7 +72,7 @@ function App() {
           )}
         />
       </Switch>
-    </>
+    </UserContext.Provider>
   );
 }
 

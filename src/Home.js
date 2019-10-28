@@ -1,15 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
+import UserContext from "./UserContext";
 
-const Home = props => (
-  <>
-    <h1>Home</h1>
-    {props.loggedInUser && <p>Hi {props.loggedInUser.name}</p>}
-  </>
-);
-
-Home.propTypes = {
-  loggedInUser: PropTypes.object
+const Home = () => {
+  const loggedInUser = useContext(UserContext);
+  return (
+    <>
+      <h1>Home</h1>
+      {loggedInUser && <p>Hi {loggedInUser.name}</p>}
+    </>
+  );
 };
 
 export default Home;
