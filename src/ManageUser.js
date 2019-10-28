@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Input from "./reusable/Input";
 import * as userApi from "./api/userApi";
 import { toast } from "react-toastify";
-import { errorColor } from "./styles";
+import { inputErrorStyle, errorStyle } from "./styles";
 
 const newUser = {
   id: null,
@@ -66,15 +66,6 @@ function ManageUser(props) {
     userCopy[event.target.name] = event.target.value;
     setUser(userCopy);
   }
-
-  const inputErrorStyle = {
-    border: "solid 1px " + errorColor
-  };
-
-  const errorStyle = {
-    color: errorColor,
-    fontWeight: "bold"
-  };
 
   if (isLoading) return "Loading... 🦄";
   return (

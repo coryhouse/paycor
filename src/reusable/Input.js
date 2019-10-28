@@ -1,15 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { errorColor } from "../styles";
-
-const inputErrorStyle = {
-  border: "solid 1px " + errorColor
-};
-
-const errorStyle = {
-  color: errorColor,
-  fontWeight: "bold"
-};
+import { inputErrorStyle, errorStyle } from "../styles";
 
 function Input(props) {
   return (
