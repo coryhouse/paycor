@@ -25,12 +25,25 @@ function Input(props) {
 }
 
 Input.propTypes = {
+  /** HTML ID assigned to the input */
   id: PropTypes.string.isRequired,
+
+  /** Label value */
   label: PropTypes.string.isRequired,
+
+  /** Input type */
   type: PropTypes.oneOf(["text", "email", "phone", "number"]),
+
+  /** Input name */
   name: PropTypes.string.isRequired,
+
+  /** Error to display below the component */
   error: PropTypes.string,
+
+  /** Function called onChange */
   onChange: PropTypes.func.isRequired,
+
+  /** Value assigned to the input */
   value: PropTypes.string.isRequired
 };
 
