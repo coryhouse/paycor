@@ -33,21 +33,31 @@ function App() {
     setLoggedInUser(users.find(u => u.id === userId));
   }
 
+  function logout() {
+    setLoggedInUser(null);
+  }
+
   if (isLoading) return <Loading />;
 
   return (
-    <UserContext.Provider value={loggedInUser}>
+    <UserContext.Provider
+      value={{ loggedInUser: loggedInUser, logout: logout }}
+    >
       <ToastContainer />
       <ul>
         <li>
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/login">Login</Link>
-        </li>
-        <li>
           <Link to="/users">Users</Link>
         </li>
+        {loggedInUser ? (
+          <p>Hi {loggedInUser.name}</p>
+        ) : (
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+        )}
       </ul>
       <Switch>
         <Route path="/" exact component={Home} />
