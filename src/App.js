@@ -1,16 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Route, Switch } from "react-router-dom";
 import Users from "./Users";
 import Home from "./Home";
 import ManageUser from "./ManageUser";
 import { ToastContainer } from "react-toastify";
 import * as userApi from "./api/userApi";
+import Loading from "./reusable/Loading";
 
 function App() {
-  const [users, setUsers] = React.useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    userApi.getUsers().then(users => setUsers(users));
+    userApi.getUsers().then(users => {
+      setUsers(users);
+      setIsLoading(false);
+    });
   }, []);
 
   function deleteUser(userId) {
@@ -20,6 +25,8 @@ function App() {
       setUsers(_users);
     });
   }
+
+  if (isLoading) return <Loading />;
 
   return (
     <>
@@ -44,8 +51,12 @@ function App() {
             />
           )}
         />
-        <Route path="/manage-user/:userId" component={ManageUser} />
-        <Route path="/manage-user" component={ManageUser} />
+        <Route
+          path="/manage-user/:userId?"
+          render={props => (
+            <ManageUser users={users} setUsers={setUsers} {...props} />
+          )}
+        />
       </Switch>
     </>
   );

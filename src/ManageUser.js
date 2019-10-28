@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import Input from "./reusable/Input";
 import * as userApi from "./api/userApi";
 import { toast } from "react-toastify";
@@ -21,12 +22,13 @@ function ManageUser(props) {
     // IOW, if editing.
     let mounted = true;
     if (props.match.params.userId) {
-      userApi.getUserById(props.match.params.userId).then(user => {
-        if (mounted) {
-          setUser(user);
-          setIsLoading(false);
-        }
-      });
+      const _user = props.users.find(
+        u => u.id === parseInt(props.match.params.userId, 10)
+      );
+      if (mounted) {
+        setUser(_user);
+        setIsLoading(false);
+      }
     } else {
       // If adding, nothing to load
       setIsLoading(false);
@@ -34,7 +36,7 @@ function ManageUser(props) {
 
     // Called when component is unmounting.
     return () => (mounted = false);
-  }, [props.match.params.userId]);
+  }, [props.match.params.userId, props.users]);
 
   function handleSave(savedUser) {
     props.history.push("/users");
@@ -55,9 +57,21 @@ function ManageUser(props) {
     event.preventDefault(); // Don't post back.
     if (!isValid()) return;
     setIsFormSubmitted(true);
-    user.id
-      ? userApi.editUser(user).then(handleSave)
-      : userApi.addUser(user).then(handleSave);
+    if (user.id) {
+      userApi.editUser(user).then(savedUser => {
+        const newUsers = props.users.map(u =>
+          u.id === savedUser.id ? savedUser : u
+        );
+        props.setUsers(newUsers);
+        handleSave(savedUser);
+      });
+    } else {
+      userApi.addUser(user).then(savedUser => {
+        const newUsers = [...props.users, savedUser];
+        props.setUsers(newUsers);
+        handleSave(savedUser);
+      });
+    }
   }
 
   function handleChange(event) {
@@ -105,5 +119,10 @@ function ManageUser(props) {
     </>
   );
 }
+
+ManageUser.propTypes = {
+  users: PropTypes.array.isRequired,
+  setUsers: PropTypes.func.isRequired
+};
 
 export default ManageUser;
