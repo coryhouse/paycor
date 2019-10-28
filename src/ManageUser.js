@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Input from "./reusable/Input";
 import * as userApi from "./api/userApi";
 import { toast } from "react-toastify";
-import { inputErrorStyle, errorStyle } from "./styles";
+import Select from "./reusable/Select";
 
 const newUser = {
   id: null,
@@ -82,26 +82,19 @@ function ManageUser(props) {
           value={user.name}
         />
 
-        <div>
-          <label htmlFor="role">Role</label>
-          <br />
-          <select
-            style={errors.role ? inputErrorStyle : null}
-            id="role"
-            value={user.role}
-            name="role"
-            onChange={handleChange}
-          >
-            <option value=""></option>
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-          </select>
-          {errors.role && (
-            <p role="alert" style={errorStyle}>
-              {errors.role}
-            </p>
-          )}
-        </div>
+        <Select
+          label="Role"
+          id="role"
+          value={user.role}
+          name="role"
+          onChange={handleChange}
+          options={[
+            { label: "", value: "" },
+            { label: "User", value: "user" },
+            { label: "Admin", value: "admin" }
+          ]}
+          error={errors.role}
+        />
 
         <input
           type="submit"
