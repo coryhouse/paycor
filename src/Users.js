@@ -1,10 +1,16 @@
 // Exercise: Convert this to a function component.
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import * as userActions from "./redux/actions/userActions";
 
-function Users({ deleteUser, users }) {
+function Users({ deleteUser, users, dispatch }) {
   const [redirect, setRedirect] = useState(false);
+
+  useEffect(() => {
+    dispatch(userActions.loadUsers());
+  }, [dispatch]);
 
   function renderUser(user) {
     return (
@@ -33,4 +39,21 @@ Users.propTypes = {
   users: PropTypes.array.isRequired
 };
 
-export default Users;
+// The state that we return here from the Redux store will be exposed
+// to the React component above via props.
+function mapStateToProps(state) {
+  return {
+    users: state.users
+  };
+}
+
+// The actions we return from this function will be passed as props
+// to the component above.
+// If we omit this function, then dispatch is provided on props to our component automatically.
+// function mapDispatchToProps(dispatch) {
+//   return {
+
+//   }
+// }
+
+export default connect(mapStateToProps)(Users);

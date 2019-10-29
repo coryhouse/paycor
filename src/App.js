@@ -68,11 +68,7 @@ function App() {
         <Route
           path="/users"
           render={reactRouterProps => (
-            <Users
-              users={users}
-              deleteUser={deleteUser}
-              {...reactRouterProps}
-            />
+            <Users deleteUser={deleteUser} {...reactRouterProps} />
           )}
         />
         <Route
