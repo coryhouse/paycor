@@ -2,10 +2,12 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as userActions from "./redux/actions/userActions";
 
-function Users({ deleteUser, users, dispatch }) {
+function Users({ deleteUser }) {
+  const dispatch = useDispatch();
+  const users = useSelector(state => state.users); // get users from Redux
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
@@ -35,17 +37,16 @@ function Users({ deleteUser, users, dispatch }) {
 }
 
 Users.propTypes = {
-  deleteUser: PropTypes.func.isRequired,
-  users: PropTypes.array.isRequired
+  deleteUser: PropTypes.func.isRequired
 };
 
 // The state that we return here from the Redux store will be exposed
 // to the React component above via props.
-function mapStateToProps(state) {
-  return {
-    users: state.users
-  };
-}
+// function mapStateToProps(state) {
+//   return {
+//     users: state.users
+//   };
+// }
 
 // The actions we return from this function will be passed as props
 // to the component above.
@@ -56,4 +57,5 @@ function mapStateToProps(state) {
 //   }
 // }
 
-export default connect(mapStateToProps)(Users);
+export default Users;
+// export default connect(mapStateToProps)(Users);
