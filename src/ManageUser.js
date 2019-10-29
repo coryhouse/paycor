@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useReducer } from "react";
 import PropTypes from "prop-types";
 import Input from "./reusable/Input";
 import * as userApi from "./api/userApi";
@@ -11,13 +11,29 @@ const newUser = {
   role: ""
 };
 
+export function reducer(state, action) {
+  switch (action.type) {
+    case "loadUser":
+      return { user: action.user, isLoading: false };
+    case "changeUser":
+      return { user: action.user };
+    case "loadingComplete":
+      return { isLoading: false };
+    default:
+      throw new Error("Unknown action: " + action.type);
+  }
+}
+
 function ManageUser(props) {
   const nameInputRef = useRef();
+  const [state, dispatch] = useReducer(reducer, {
+    user: newUser,
+    isLoading: true
+  });
+  const { user, isLoading } = state;
 
   // Handle state via the useState Hook
-  const [user, setUser] = useState(newUser);
   const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   useEffect(() => {
@@ -33,17 +49,15 @@ function ManageUser(props) {
         u => u.id === parseInt(props.match.params.userId, 10)
       );
       if (mounted) {
-        setUser(_user);
-        setIsLoading(false);
+        dispatch({ type: "loadUser", user: _user });
       }
     } else {
-      // If adding, nothing to load
-      setIsLoading(false);
+      dispatch({ type: "loadingComplete" });
     }
 
     // Called when component is unmounting.
     return () => (mounted = false);
-  }, [isLoading, props.match.params.userId, props.users]);
+  }, [props.match.params.userId, props.users]);
 
   function handleSave(savedUser) {
     props.history.push("/users");
@@ -85,7 +99,8 @@ function ManageUser(props) {
     const userCopy = { ...user };
     // using computed property syntax to set a property using a variable.
     userCopy[event.target.name] = event.target.value;
-    setUser(userCopy);
+    debugger;
+    dispatch({ type: "changeUser", user: userCopy });
   }
 
   if (isLoading) return "Loading... 🦄";
