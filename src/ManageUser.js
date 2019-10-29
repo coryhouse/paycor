@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import Input from "./reusable/Input";
 import * as userApi from "./api/userApi";
@@ -12,11 +12,18 @@ const newUser = {
 };
 
 function ManageUser(props) {
+  const nameInputRef = useRef();
+
   // Handle state via the useState Hook
   const [user, setUser] = useState(newUser);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
+  useEffect(() => {
+    // focus the name input on load after loading completes
+    if (!isLoading) nameInputRef.current.focus();
+  }, [isLoading]);
 
   useEffect(() => {
     // IOW, if editing.
@@ -36,7 +43,7 @@ function ManageUser(props) {
 
     // Called when component is unmounting.
     return () => (mounted = false);
-  }, [props.match.params.userId, props.users]);
+  }, [isLoading, props.match.params.userId, props.users]);
 
   function handleSave(savedUser) {
     props.history.push("/users");
@@ -89,6 +96,7 @@ function ManageUser(props) {
         <Input
           name="name"
           label="Name"
+          ref={nameInputRef}
           type="text"
           error={errors.name}
           id="user-name"

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { inputErrorStyle, errorStyle } from "../styles";
 
-function Input(props) {
+const Input = React.forwardRef((props, ref) => {
   return (
     <div>
       <label htmlFor={props.id}>{props.label}</label>
@@ -10,6 +10,7 @@ function Input(props) {
       <input
         style={props.error ? inputErrorStyle : null}
         type={props.type}
+        ref={ref}
         name={props.name}
         id={props.id}
         onChange={props.onChange}
@@ -22,7 +23,7 @@ function Input(props) {
       )}
     </div>
   );
-}
+});
 
 Input.propTypes = {
   /** HTML ID assigned to the input */
